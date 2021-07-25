@@ -1,0 +1,1 @@
+select distinct projectID, faultInducingCommitHash, '1' as inducing from SZZ_FAULT_INDUCING_COMMITS

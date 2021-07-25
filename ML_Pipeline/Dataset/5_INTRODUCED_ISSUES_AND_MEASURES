@@ -1,0 +1,5 @@
+select distinct * from MEASURES
+
+left join ISSUES
+
+on MEASURES.commitHash=ISSUES.creationCommitHash

@@ -1,0 +1,4 @@
+select distinct * from
+MEASURES_UPDATE left join
+(select distinct Git_commits.commitHash, FAULT_INDUCING_COMMITS.inducing from Git_commits left join FAULT_INDUCING_COMMITS on GIT_COMMITS.commitHash=FAULT_INDUCING_COMMITS.faultInducingCommitHash) AS Q1 
+on MEASURES_UPDATE.commitHash=Q1.commitHash
