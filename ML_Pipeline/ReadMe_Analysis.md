@@ -21,5 +21,5 @@ Specifically, the file in this folder are the following:
 
 In order to run the Machine Learning analysis, it is enough to run from terminal the command: `python analysis_ML.py`.
 
-In order to run the Deep Learning Analysis, it is necessary to run from terminal the command: `python analysis_DL.py <model> <Feature>`, where <model> is either `fcn` or `resenet`, and <Feature> is one of the following:
+In order to run the Deep Learning Analysis, it is necessary to run from terminal the command: `python analysis_DL.py <model> <Feature>`, where `<model>` is either `fcn` or `resenet`, and `<Feature>` is one of the following:
 `['M', 'PRODUCT', 'PROCESS', 'PRODUCT-PROCESS', 'M-PRODUCT', 'M-PROCESS', 'M-PRODUCT-PROCESS', 'squid']`
