@@ -74,6 +74,24 @@ def data_preprocess_ML(df, subset):
         if subset == 'M-PRODUCT-PROCESS':
             colX = [c for c in feature_selection(df, [c for c in df.columns if "M_" in c or "Product_" in c or "Process_" in c], subset)]
 
+        if subset == 'squid-M':
+            colX = [c for c in feature_selection(df, [c for c in df.columns if "squid" in c or "M_" in c], subset)]
+        if subset == 'squid-PRODUCT':
+            colX = [c for c in feature_selection(df, [c for c in df.columns if "squid" in c or "Product_" in c], subset)]
+        if subset == 'squid-PROCESS':
+            colX = [c for c in feature_selection(df, [c for c in df.columns if "squid" in c or "Process_" in c], subset)]
+        if subset == 'squid-PRODUCT-PROCESS':
+            colX = [c for c in
+                    feature_selection(df, [c for c in df.columns if "squid" in c or "Product_" in c or "Process_" in c], subset)]
+        if subset == 'squid-M-PRODUCT':
+            colX = [c for c in
+                    feature_selection(df, [c for c in df.columns if "squid" in c or "M_" in c or "Product_" in c], subset)]
+        if subset == 'squid-M-PROCESS':
+            colX = [c for c in
+                    feature_selection(df, [c for c in df.columns if "squid" in c or "M_" in c or "Process_" in c], subset)]
+        if subset == 'squid-M-PRODUCT-PROCESS':
+            colX = [c for c in feature_selection(df, [c for c in df.columns if "squid" in c or "M_" in c or "Product_" in c or "Process_" in c], subset)]
+
     groups = np.array(df['projectID'])
 
     projects = np.unique(groups)
@@ -159,6 +177,24 @@ def data_preprocess_DL(df, subset):
             colX = [c for c in feature_selection(df, [c for c in df.columns if "M_" in c or "Process_" in c], subset)]
         if subset == 'M-PRODUCT-PROCESS':
             colX = [c for c in feature_selection(df, [c for c in df.columns if "M_" in c or "Product_" in c or "Process_" in c], subset)]
+
+        if subset == 'squid-M':
+            colX = [c for c in feature_selection(df, [c for c in df.columns if "squid" in c or "M_" in c], subset)]
+        if subset == 'squid-PRODUCT':
+            colX = [c for c in feature_selection(df, [c for c in df.columns if "squid" in c or "Product_" in c], subset)]
+        if subset == 'squid-PROCESS':
+            colX = [c for c in feature_selection(df, [c for c in df.columns if "squid" in c or "Process_" in c], subset)]
+        if subset == 'squid-PRODUCT-PROCESS':
+            colX = [c for c in
+                    feature_selection(df, [c for c in df.columns if "squid" in c or "Product_" in c or "Process_" in c], subset)]
+        if subset == 'squid-M-PRODUCT':
+            colX = [c for c in
+                    feature_selection(df, [c for c in df.columns if "squid" in c or "M_" in c or "Product_" in c], subset)]
+        if subset == 'squid-M-PROCESS':
+            colX = [c for c in
+                    feature_selection(df, [c for c in df.columns if "squid" in c or "M_" in c or "Process_" in c], subset)]
+        if subset == 'squid-M-PRODUCT-PROCESS':
+            colX = [c for c in feature_selection(df, [c for c in df.columns if "squid" in c or "M_" in c or "Product_" in c or "Process_" in c], subset)]
 
     groups = np.array(df['projectID'])
 

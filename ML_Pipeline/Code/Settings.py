@@ -6,8 +6,8 @@ Main Settings
 ANALYSIS = 'DL' #either ML or DL
 VALIDATION = 'LOGO' #ONLY LOGO available at the time
 
-FEATURE = ['M', 'PRODUCT', 'PROCESS', 'PRODUCT-PROCESS', 'M-PRODUCT', 'M-PROCESS', 'M-PRODUCT-PROCESS', 'squid']
-
+#FEATURE = ['M', 'PRODUCT', 'PROCESS', 'PRODUCT-PROCESS', 'M-PRODUCT', 'M-PROCESS', 'M-PRODUCT-PROCESS', 'squid']
+FEATURE = ['squid-M', 'squid-PRODUCT', 'squid-PROCESS', 'squid-PRODUCT-PROCESS', 'squid-M-PRODUCT', 'squid-M-PROCESS', 'squid-M-PRODUCT-PROCESS', 'squid']
 OVERSAMPLING = 'True' #if True use SMOTE over-sampling technique
 
 WINDOW_LEN = 10
