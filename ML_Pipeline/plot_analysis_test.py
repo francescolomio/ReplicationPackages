@@ -17,7 +17,7 @@ def create_dataframes(a, experiment, oversampling):
         models_results_dataframe_full.append([i] * 29)
     project_dataframe = pd.DataFrame({'Fold': ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
                                                '20', '21', '22', '23', '24', '25', '26', '27', '28', '29'] * len(models),
-                                      'Fratures': [a] * len(models) * 29,
+                                      'Features': [a] * len(models) * 29,
                                'Label': [subset] * len(models) * 29,
                                'Oversampling': [oversampling] * len(models) * 29,
                                'Model': [j for i in models_results_dataframe_full for j in i],
@@ -38,8 +38,8 @@ def create_dataframes(a, experiment, oversampling):
 analysis = ['metrics', 'squidrules', 'squidtype']
 
 for a in analysis:
-    path_folds = './%s/Folds_Information/' %a
-    path_results = './%s/Metrics_folds/' %a
+    path_folds = './ML_Pipeline/%s/Folds_Information/' %a
+    path_results = './ML_Pipeline/%s/Metrics_folds/' %a
     models = ['RandomForestClassifier',
               'GradientBoostingClassifier',
               'XGBoost',
@@ -178,7 +178,6 @@ for a in analysis:
             if experiment == 'squid':
                 project_S_dataframe_oversampling = create_dataframes(a, experiment, oversampling)
 
-
 result_dataframes_list = [project_PD_oversampling, project_PR_oversampling, project_M_oversampling, project_PP_process_oversampling, project_MPR_oversampling,
                           project_MPD_oversampling, project_MPP_dataframe_oversampling, project_SPD_oversampling, project_SPR_oversampling, project_SM_oversampling,
                           project_SPP_process_oversampling,project_SMPR_oversampling,project_SMPD_oversampling,project_SMPP_dataframe_oversampling,project_S_dataframe_oversampling,
@@ -230,13 +229,19 @@ import seaborn as sns
 #     fig.savefig(target_file+name+'_boxpot_fulldataset.pdf', bbox_inches = 'tight')
 #     # plt.close()
 
+metric_results = result_dataframe.loc[result_dataframe['Features']=='metrics']
+rules_metric_results = result_dataframe.loc[result_dataframe['Features']=='squidrules']
+ruletype_metric_results = result_dataframe.loc[result_dataframe['Features']=='squidtype']
+rule_vs_type = result_dataframe.loc[((result_dataframe['Features'] == 'squidtype') | (result_dataframe['Features'] == 'squidrules')) & (result_dataframe['Label'] == 'squid')]
+
+#Plot for metrics comparison
 for metric, name in all_metrics:
     fig_dims = (12, 6)
     fig, ax = plt.subplots(figsize=fig_dims, dpi=600)
     sns.set_style('white')
     y_range = np.arange(0, 1.1, .1)
     if name == 'MCC':
-        y_range = np.arange(round(min(result_dataframe.MCC), 1),1.1,.1)
+        y_range = np.arange(round(min(metric_results.MCC), 1),1.1,.1)
         # print('True')
     boxprops = dict(linestyle='-', linewidth=.7)
     medianprops = dict(linestyle='-', linewidth=.7)
@@ -245,7 +250,7 @@ for metric, name in all_metrics:
     whiskerprops = dict(linestyle='-', linewidth=.7)
     capprops = dict(linestyle='-', linewidth=.7)
     sns.boxplot(y=name, x='Label',
-                     data=result_dataframe,
+                     data=metric_results,
                      hue='Model',
                 meanline=True,
                 showmeans=True,
@@ -258,6 +263,105 @@ for metric, name in all_metrics:
     ax.set_yticks(y_range)
     ax.legend(bbox_to_anchor=(0, 1.005, 1, 0.005), loc=3, ncol=5, mode="expand", borderaxespad=0., fontsize="medium")
 
-    target_file = 'Plots/Comparison/'
+    target_file = 'Plots/Comparison/Metrics/'
     make_sure_folder_exists(target_file)
     fig.savefig(target_file+name+'_boxpot.pdf', bbox_inches = 'tight')
+
+#Plot for SQrules comparison
+for metric, name in all_metrics:
+    fig_dims = (12, 6)
+    fig, ax = plt.subplots(figsize=fig_dims, dpi=600)
+    sns.set_style('white')
+    y_range = np.arange(0, 1.1, .1)
+    if name == 'MCC':
+        y_range = np.arange(round(min(rules_metric_results.MCC), 1),1.1,.1)
+        # print('True')
+    boxprops = dict(linestyle='-', linewidth=.7)
+    medianprops = dict(linestyle='-', linewidth=.7)
+    meanlineprops = dict(linestyle=':', linewidth=.7, color='black')
+    flierprops = dict(marker='.', markersize=1)
+    whiskerprops = dict(linestyle='-', linewidth=.7)
+    capprops = dict(linestyle='-', linewidth=.7)
+    sns.boxplot(y=name, x='Label',
+                     data=rules_metric_results,
+                     hue='Model',
+                meanline=True,
+                showmeans=True,
+                width=0.5, palette='bright', boxprops=boxprops, medianprops=medianprops, flierprops=flierprops, whiskerprops=whiskerprops, capprops=capprops, meanprops=meanlineprops)
+    plt.plot([], [], '-', linewidth=1, color='Black', label='median')
+    plt.plot([], [], ':', linewidth=1, color='black', label='mean')
+    ax.set_xlabel('')
+    ax.set_ylabel('')
+    ax.set_xticklabels(ax.get_xticklabels(),rotation=30)
+    ax.set_yticks(y_range)
+    ax.legend(bbox_to_anchor=(0, 1.005, 1, 0.005), loc=3, ncol=5, mode="expand", borderaxespad=0., fontsize="medium")
+
+    target_file = 'Plots/Comparison/SquidRules/'
+    make_sure_folder_exists(target_file)
+    fig.savefig(target_file+name+'_boxpot.pdf', bbox_inches = 'tight')
+
+#Plot for SQrules types comparison
+for metric, name in all_metrics:
+    fig_dims = (12, 6)
+    fig, ax = plt.subplots(figsize=fig_dims, dpi=600)
+    sns.set_style('white')
+    y_range = np.arange(0, 1.1, .1)
+    if name == 'MCC':
+        y_range = np.arange(round(min(ruletype_metric_results.MCC), 1), 1.1, .1)
+        # print('True')
+    boxprops = dict(linestyle='-', linewidth=.7)
+    medianprops = dict(linestyle='-', linewidth=.7)
+    meanlineprops = dict(linestyle=':', linewidth=.7, color='black')
+    flierprops = dict(marker='.', markersize=1)
+    whiskerprops = dict(linestyle='-', linewidth=.7)
+    capprops = dict(linestyle='-', linewidth=.7)
+    sns.boxplot(y=name, x='Label',
+                data=ruletype_metric_results,
+                hue='Model',
+                meanline=True,
+                showmeans=True,
+                width=0.5, palette='bright', boxprops=boxprops, medianprops=medianprops, flierprops=flierprops, whiskerprops=whiskerprops, capprops=capprops, meanprops=meanlineprops)
+    plt.plot([], [], '-', linewidth=1, color='Black', label='median')
+    plt.plot([], [], ':', linewidth=1, color='black', label='mean')
+    ax.set_xlabel('')
+    ax.set_ylabel('')
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=30)
+    ax.set_yticks(y_range)
+    ax.legend(bbox_to_anchor=(0, 1.005, 1, 0.005), loc=3, ncol=5, mode="expand", borderaxespad=0., fontsize="medium")
+
+    target_file = 'Plots/Comparison/SquidType/'
+    make_sure_folder_exists(target_file)
+    fig.savefig(target_file + name + '_boxpot.pdf', bbox_inches='tight')
+
+#Plot for SQrules VS SQrules Type comparison
+for metric, name in all_metrics:
+    fig_dims = (12, 6)
+    fig, ax = plt.subplots(figsize=fig_dims, dpi=600)
+    sns.set_style('white')
+    y_range = np.arange(0, 1.1, .1)
+    if name == 'MCC':
+        y_range = np.arange(round(min(rule_vs_type.MCC), 1), 1.1, .1)
+        # print('True')
+    boxprops = dict(linestyle='-', linewidth=.7)
+    medianprops = dict(linestyle='-', linewidth=.7)
+    meanlineprops = dict(linestyle=':', linewidth=.7, color='black')
+    flierprops = dict(marker='.', markersize=1)
+    whiskerprops = dict(linestyle='-', linewidth=.7)
+    capprops = dict(linestyle='-', linewidth=.7)
+    sns.boxplot(y=name, x='Model',
+                data=rule_vs_type,
+                hue='Features',
+                meanline=True,
+                showmeans=True,
+                width=0.5, palette='bright', boxprops=boxprops, medianprops=medianprops, flierprops=flierprops, whiskerprops=whiskerprops, capprops=capprops, meanprops=meanlineprops)
+    plt.plot([], [], '-', linewidth=1, color='Black', label='median')
+    plt.plot([], [], ':', linewidth=1, color='black', label='mean')
+    ax.set_xlabel('')
+    ax.set_ylabel('')
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=30)
+    ax.set_yticks(y_range)
+    ax.legend(bbox_to_anchor=(0, 1.005, 1, 0.005), loc=3, ncol=5, mode="expand", borderaxespad=0., fontsize="medium")
+
+    target_file = 'Plots/Comparison/RulesVSType/'
+    make_sure_folder_exists(target_file)
+    fig.savefig(target_file + name + '_boxpot.pdf', bbox_inches='tight')
