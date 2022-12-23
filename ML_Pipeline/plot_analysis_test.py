@@ -2,6 +2,7 @@ import pandas as pd
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 import os
 
 def make_sure_folder_exists(path):
@@ -189,45 +190,6 @@ result_dataframe.to_csv('result_dataframe.csv', index=False)
 
 
 pd.set_option('display.max_columns', None)
-
-import seaborn as sns
-
-#print full_dataset plot
-# for metric, name in all_metrics:
-#     fig_dims = (8, 6)
-#     fig, ax = plt.subplots(figsize=fig_dims, dpi=600)
-#     sns.set_style('white')
-#     y_range = np.arange(0,1.1,.1)
-#     if name == 'MCC':
-#         y_range = np.arange(round(min(project_all_result_dataframe.MCC), 1),1.1,.1)
-#     boxprops = dict(linestyle='-', linewidth=.7)
-#     medianprops = dict(linestyle='-', linewidth=.7)
-#     meanlineprops = dict(linestyle=':', linewidth=.7, color='black')
-#     flierprops = dict(marker='.', markersize=1)
-#     whiskerprops = dict(linestyle='-', linewidth=.7)
-#     capprops = dict(linestyle='-', linewidth=.7)
-#     sns.boxplot(y=name, x='Model',
-#                      data=project_all_result_dataframe_oversampling,
-#                      hue='Model',
-#                 meanline=True,
-#                 showmeans=True,
-#                 dodge=False,
-#                 width=0.5, palette='bright', boxprops=boxprops, medianprops=medianprops, flierprops=flierprops, whiskerprops=whiskerprops, capprops=capprops, meanprops=meanlineprops)
-#     plt.plot([], [], '-', linewidth=1, color='Black', label='median')
-#     plt.plot([], [], ':', linewidth=1, color='black', label='mean')
-#     ax.set_xlabel('')
-#     ax.set_ylabel('')
-#     ax.set_xticklabels(ax.get_xticklabels(),rotation=30)
-#     # y_range = np.arange(0, 1.1, .1)
-#     ax.set_yticks(y_range)
-#     plt.xticks(fontsize="large")
-#     ax.legend(bbox_to_anchor=(0, 1.005, 1, 0.005), loc=1, ncol=5, mode="expand", borderaxespad=0., fontsize="medium")
-#
-#     # plt.show()
-#     target_file = 'Plots/Combined/'
-#     make_sure_folder_exists(target_file)
-#     fig.savefig(target_file+name+'_boxpot_fulldataset.pdf', bbox_inches = 'tight')
-#     # plt.close()
 
 metric_results = result_dataframe.loc[result_dataframe['Features']=='metrics']
 rules_metric_results = result_dataframe.loc[result_dataframe['Features']=='squidrules']
